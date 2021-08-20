@@ -1,4 +1,6 @@
-a = [1,2,3,2,5,1,78,2,3,2,4,3,8,2,3,4,1,2,8]
+from time import time
+
+a = [1] * 100000
 
 """합이 K인 부분 연속 수열의 개수 구하기"""
 
@@ -14,12 +16,36 @@ def solution(a, K):
         if sum(a[start:end+1]) <= K:
             if sum(a[start:end+1]) == K:
                 count += 1
-                sub_list.append(a[start:end+1])
+                # sub_list.append(a[start:end+1])
             end += 1
         else:
             start += 1
 
-    return (sub_list,count)
+    return count
+    # return (sub_list,count)
 
-print(solution(a, 10))
+
+def solution_2(a, K):
+    result = 0
+    summary = 0
+    end = 0
+
+    for start in range(len(a)):
+        while summary < K and end < len(a):
+            summary += a[end]
+            end += 1
         
+        if summary == K:
+            result += 1
+        summary -= a[start]
+
+    return result
+
+first = time()
+print(solution(a, 10))
+print("걸린 시간 : {}", format(time() - first))
+
+
+second = time()
+print(solution_2(a, 10))
+print("걸린 시간 : {}", format(time() - second))
